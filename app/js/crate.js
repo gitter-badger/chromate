@@ -1,17 +1,18 @@
-var Status = function Status(status){
-  this.code = status;
-  this.name = Status.NAMES[this.code];
+var State = function State(code){
+  this.code = code;
+  this.name = State.NAMES[this.code] || 'unknown';
 };
-Status.NAMES = ['good', 'warning', 'critical'];
 
-Status.GOOD = 0;
-Status.WARNING = 1;
-Status.CRITICAL = 2;
+State.NAMES = ['good', 'warning', 'critical'];
+State.UNKNOWN = -1;
+State.GOOD = 0;
+State.WARNING = 1;
+State.CRITICAL = 2;
 
 var Health = function Health(clusterURL){};
 
-var getClusterHealth = function(cluster) {
-
+var getClusterHealth = function(cluster, timeout) {
+      SQLQuery.timeout = timeout;
       var clusterURL = cluster.url;
 
       var tableQuery = SQLQuery.execute(clusterURL, 
@@ -59,20 +60,21 @@ var getClusterHealth = function(cluster) {
           };
 
           if (numActivePrimary < numConfigured) {
-            cluster.state = new Status(Status.CRITICAL);
+            cluster.state = new State(State.CRITICAL);
           } else if (numUnassigned > 0) {
-            cluster.state = new Status(Status.WARNING);
+            cluster.state = new State(State.WARNING);
           } else {
-            cluster.state = new Status(Status.GOOD);
+            cluster.state = new State(State.GOOD);
           }
 
-          console.log("success", cluster.state);
-
+          console.log(clusterURL, cluster.state);
         }).fail(function(res){
           console.error("error", res);
+          cluster.state = new State(State.UNKNOWN);
         });
 
       }).fail(function(res){
           console.error("error", res);
+          cluster.state = new State(State.UNKNOWN);
       });
     };

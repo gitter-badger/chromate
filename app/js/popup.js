@@ -1,3 +1,1 @@
-var console = chrome.extension.getBackgroundPage().console;
-
-console.log(">", "Hello World");
+console.log(">", "Open Popup");

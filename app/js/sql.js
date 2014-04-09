@@ -59,7 +59,8 @@ SQLQuery.execute = function(clusterURL, stmt /*, args */) {
       "type": "POST",
       "url": clusterURL+"/_sql",
       "data": JSON.stringify(data),
-      "dataType": "json"
+      "dataType": "json",
+      "timeout": Math.max(SQLQuery.timeout, 10000)
   }).success(function(response, status, xhr){
       deferred.resolve(new SQLQuery(stmt, response, false));
   }).error(function(xhr, status, message){

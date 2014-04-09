@@ -7,8 +7,11 @@
 
   "permissions": [
     "http://*/",
-    "https://*/"
+    "https://*/",
+    "storage"
   ],
+
+  "options_page": "settings.html",
 
   "browser_action": {
     "default_icon": "img/icon.png",
