@@ -2,23 +2,17 @@
 <html>
   <head>
     <title>Crate Chrome Extension</title>
-    <style>
-      body {
-        min-width: 357px;
-        overflow-x: hidden;
-      }
-    </style>
+    <link rel="stylesheet" type="text/css"  href="main.css" />
     <script src="components/jquery/dist/jquery.min.js"></script>
     <script src="js/sql.js"></script>
     <script src="js/crate.js"></script>
     <script src="js/popup.js"></script>
-    <a href="settings.html">Settings</a>
   </head>
   <body>
 
     <table id="clusters">
-    <tr>
-      <td><button class="">Pause</button></td>
+    <tr class="pause">
+      <td class="action"><button><span></span></button></td>
       <td class="name">Crate</td>
       <td class="info">
         <ul>
@@ -30,7 +24,23 @@
         </ul>
       </td>
     </tr>
-    </table>
+    <tr>
+      <td class="action"><button><span></span></button></td>
+      <td class="name"><span class="red">Crate</span></td>
+      <td class="info">
+        <ul>
+          <li>http://demo.crate.io</li>
+          <li>Load: 0.12</li>
+          <li>100.0% available</li>
+          <li>50.0% replicated</li>
+          <li>25.28M records</li>
+        </ul>
+      </td>
+    </tr>
+    <!--<tr><td colspan="3" class="settings"><a href="settings.html">Settings</a></td></tr>-->
+
+        </table>
+        <div class="settings"><a href="settings.html">Settings</a></div>
 
   </body>
 </html>

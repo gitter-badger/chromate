@@ -1,96 +1,16 @@
 <!DOCTYPE html>
 <html>
 <head><title>My Test Extension Options</title>
-<style type="text/css">
-    .error {
-        border: 1px solid red;
-    } 
-	@font-face{font-family:BlenderPro;src:url('https://cdn.crate.io/libs/fonts/BlenderPro/BlenderPro-ThinWeb.eot');src:url('https://cdn.crate.io/libs/fonts/BlenderPro/BlenderPro-ThinWeb.eot?#iefix') format('embedded-opentype'),url('https://cdn.crate.io/libs/fonts/BlenderPro/BlenderPro-ThinWeb.woff') format('woff'),url('https://cdn.crate.io/libs/fonts/BlenderPro/BlenderPro-ThinWeb.ttf') format('truetype'),url('https://cdn.crate.io/libs/fonts/BlenderPro/BlenderPro-ThinWeb.svg#blenderpro_thinweb') format('svg')}@font-face{font-family:BlenderPro;src:url('https://cdn.crate.io/libs/fonts/BlenderPro/BlenderPro-BoldWeb.eot');src:url('https://cdn.crate.io/libs/fonts/BlenderPro/BlenderPro-BoldWeb.eot?#iefix') format('embedded-opentype'),url('https://cdn.crate.io/libs/fonts/BlenderPro/BlenderPro-BoldWeb.woff') format('woff'),url('https://cdn.crate.io/libs/fonts/BlenderPro/BlenderPro-BoldWeb.ttf') format('truetype'),url('https://cdn.crate.io/libs/fonts/BlenderPro/BlenderPro-BoldWeb.svg#blenderpro_boldweb') format('svg');font-weight:bold}@font-face{font-family:SourceCodePro;src:url('https://cdn.crate.io/libs/fonts/SourceCodePro/SourceCodePro-Light.eot');src:url('https://cdn.crate.io/libs/fonts/SourceCodePro/SourceCodePro-Light.eot?#iefix') format('embedded-opentype'),url('https://cdn.crate.io/libs/fonts/SourceCodePro/SourceCodePro-Light.otf.woff') format('woff'),url('https://cdn.crate.io/libs/fonts/SourceCodePro/SourceCodePro-Light.ttf.woff') format('truetype'),url('https://cdn.crate.io/libs/fonts/SourceCodePro/SourceCodePro-Light.svg#sourcecodepro_light') format('svg')}@font-face{font-family:SourceCodePro;src:url('https://cdn.crate.io/libs/fonts/SourceCodePro/SourceCodePro-Regular.eot');src:url('https://cdn.crate.io/libs/fonts/SourceCodePro/SourceCodePro-Regular.eot?#iefix') format('embedded-opentype'),url('https://cdn.crate.io/libs/fonts/SourceCodePro/SourceCodePro-Regular.otf.woff') format('woff'),url('https://cdn.crate.io/libs/fonts/SourceCodePro/SourceCodePro-Regular.ttf.woff') format('truetype'),url('https://cdn.crate.io/libs/fonts/SourceCodePro/SourceCodePro-Regular.svg#sourcecodepro_regular') format('svg');font-weight:bold}
-	html {
+<link rel="stylesheet" type="text/css"  href="main.css" />
 
-	}
-	body {	
-	  min-width: 250px;
-	  font-family: BlenderPro, "Helvetica Neue", Helvetica, Arial, sans-serif;
-	  font-size: 18px;
-	  line-height: 1.42857143;
-	  color: #333333;
-	  background-color: #ffffff;
-	  -webkit-font-smoothing: subpixel-antialiased;
-	}
-	p {
-		margin: 0;
-		padding: 0;
-	}
-	button,
-	input,
-	select,
-	textarea {
-	  font-family: inherit;
-	  font-size: 100%;
-	  margin: 0;
-	}
-	button,
-	input {
-	  line-height: normal;
-	}
-	button,
-	select {
-	  text-transform: none;
-	}
-	button,
-	html input[type="button"],
-	input[type="reset"],
-	input[type="submit"] {
-	  -webkit-appearance: button;
-	  cursor: pointer;
-	}
-	button[disabled],
-	html input[disabled] {
-	  cursor: default;
-	}
-	input[type="checkbox"],
-	input[type="radio"] {
-	  box-sizing: border-box;
-	  padding: 0;
-	}
-	input[type="search"] {
-	  -webkit-appearance: textfield;
-	  -moz-box-sizing: content-box;
-	  -webkit-box-sizing: content-box;
-	  box-sizing: content-box;
-	}
-	input[type="search"]::-webkit-search-cancel-button,
-	input[type="search"]::-webkit-search-decoration {
-	  -webkit-appearance: none;
-	}
-	button::-moz-focus-inner,
-	input::-moz-focus-inner {
-	  border: 0;
-	  padding: 0;
-	}
-	textarea {
-	  overflow: auto;
-	  vertical-align: top;
-	} 
-	#save {
-		float: right;
-		margin: 10px 0 10px 10px;
-	}
-	#clusterlist {
-		width: 100%;
-		margin: 0;
-		padding: 0;
-	}
-</style>
 </head>
 <body>
+<div class="container">
+	<p>One cluster url per line</p>
+	<textarea id="clusterlist"></textarea>
 
-<p>One cluster url per line</p>
-<textarea id="clusterlist"></textarea>
-
-<button id="save">Save</button>
-
+	<button id="save">Save</button>
+</div>
 <script src="js/chromate.js"></script>
 <script src="js/settings.js"></script>
 </body>
