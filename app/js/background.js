@@ -5,7 +5,13 @@ var Cluster = function Cluster(url) {
     this.tableInfo = null;
 };
 
+var refreshInterval = null;
+
 var init = function(clusterUrls){
+    if (refreshInterval) {
+        window.clearInterval(refreshInterval);
+        refreshInterval = null;
+    }
     var clusters = [];
     for (var i=0; i<clusterUrls.length; i++) {
         var c = new Cluster(clusterUrls[i]);
@@ -13,7 +19,7 @@ var init = function(clusterUrls){
     }
     var interval = 5000/Math.max(clusters.length, 1);
     var counter = 0;
-    window.setInterval(function(){
+    var fetch = function fetch(){
         if (!clusters.length) return;
         var cluster = clusters[counter%clusters.length];
         getClusterHealth(cluster, interval);
@@ -31,7 +37,9 @@ var init = function(clusterUrls){
         var iconName = '../img/icon-' + state.name + (unknown ? '-unknown' : '') + '.png';
         chrome.browserAction.setIcon({'path':iconName});
         counter++;
-    }, interval);
+    };
+    refreshInterval = window.setInterval(fetch, interval);
+    fetch();
 };
 
 Settings.get('clusterUrls', init);
