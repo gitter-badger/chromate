@@ -28,7 +28,8 @@ var updateTableRow = function updateTableRow(cluster) {
     var row = $("#cluster-"+cluster._id);
     getClusterInfo(cluster).done(function(info){
         cluster.info = info;
-        $(".name", row).text(cluster.info.name).addClass(cluster.state.name);
+        $(".name", row).text(cluster.info.name)
+        $(".name", row).attr("class","").addClass(cluster.state.name);
         $(".load", row).text(cluster.info.load[0].toFixed(2));
         $(".available", row).text(cluster.tableInfo.available_data.toFixed(1)+"%");
         $(".replicated", row).text(cluster.tableInfo.replicated_data.toFixed(1)+"%");
