@@ -91,12 +91,13 @@ var getClusterInfo = function(cluster){
     for (var i=0; i<info.load.length; i++) info.load[i] /= parseFloat(numNodes);
     deferred.resolve(info);
   }).fail(function(sqlQuery) {
-    deferred.revoke({});
+    deferred.reject({});
   });
   return deferred;
 };
 
 var getClusterHealth = function(cluster, timeout) {
+      var deferred = $.Deferred();
       SQLQuery.timeout = timeout;
       var clusterURL = cluster.url;
 
@@ -187,14 +188,17 @@ var getClusterHealth = function(cluster, timeout) {
           }
 
           console.log(clusterURL, cluster);
+          deferred.resolve();
 
         }).fail(function(res){
-          console.error("error", res);
           cluster.state = new State(State.UNKNOWN);
+          deferred.reject();
         });
 
       }).fail(function(res){
-          console.error("error", res);
           cluster.state = new State(State.UNKNOWN);
+          deferred.reject();
       });
+
+      return deferred;
     };
