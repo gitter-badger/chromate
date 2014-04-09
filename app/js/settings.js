@@ -1,5 +1,6 @@
 
 var save_options = function(){
+    console.log("save options");
   var elem = document.getElementById('clusterlist');
   var urls = elem.value.split('\n');
   Settings.set(urls, function(success) {
