@@ -10,9 +10,9 @@ Status.CRITICAL = 2;
 
 var Health = function Health(clusterURL){};
 
-var getClusterHealth = function(clusterURL) {
+var getClusterHealth = function(cluster) {
 
-      var data = {};
+      var clusterURL = cluster.url;
 
       var tableQuery = SQLQuery.execute(clusterURL, 
         'select table_name, sum(number_of_shards), number_of_replicas ' +
@@ -31,7 +31,7 @@ var getClusterHealth = function(clusterURL) {
         shardQuery.done(function(sqlQuery){
           var shardInfo = queryResultToObjects(sqlQuery, 
             ['name', 'count', 'primary', 'state', 'sum_docs', 'avg_docs', 'size']);
-          data.shardInfo = shardInfo;
+          cluster.shardInfo = shardInfo;
 
           var numActivePrimary = shardInfo.filter(function(obj){
             return (obj.state.toLowerCase() in {'started':'','relocating':''} && obj.primary === true);
@@ -50,7 +50,7 @@ var getClusterHealth = function(clusterURL) {
             return memo + obj.number_of_shards;
           }, 0);
 
-          data.tableInfo = {
+          cluster.tableInfo = {
             'tables': tableInfo,
             'numActivePrimary': numActivePrimary,
             'numUnassigned': numUnassigned,
@@ -59,14 +59,14 @@ var getClusterHealth = function(clusterURL) {
           };
 
           if (numActivePrimary < numConfigured) {
-            data.status = new Status(Status.CRITICAL);
+            cluster.state = new Status(Status.CRITICAL);
           } else if (numUnassigned > 0) {
-            data.status = new Status(Status.WARNING);
+            cluster.state = new Status(Status.WARNING);
           } else {
-            data.status = new Status(Status.GOOD);
+            cluster.state = new Status(Status.GOOD);
           }
 
-          console.log("success", data);
+          console.log("success", cluster.state);
 
         }).fail(function(res){
           console.error("error", res);
