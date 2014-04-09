@@ -1,0 +1,176 @@
+
+
+          .error {
+        border: 1px solid red;
+    } 
+	@font-face{font-family:BlenderPro;src:url('https://cdn.crate.io/libs/fonts/BlenderPro/BlenderPro-ThinWeb.eot');src:url('https://cdn.crate.io/libs/fonts/BlenderPro/BlenderPro-ThinWeb.eot?#iefix') format('embedded-opentype'),url('https://cdn.crate.io/libs/fonts/BlenderPro/BlenderPro-ThinWeb.woff') format('woff'),url('https://cdn.crate.io/libs/fonts/BlenderPro/BlenderPro-ThinWeb.ttf') format('truetype'),url('https://cdn.crate.io/libs/fonts/BlenderPro/BlenderPro-ThinWeb.svg#blenderpro_thinweb') format('svg')}@font-face{font-family:BlenderPro;src:url('https://cdn.crate.io/libs/fonts/BlenderPro/BlenderPro-BoldWeb.eot');src:url('https://cdn.crate.io/libs/fonts/BlenderPro/BlenderPro-BoldWeb.eot?#iefix') format('embedded-opentype'),url('https://cdn.crate.io/libs/fonts/BlenderPro/BlenderPro-BoldWeb.woff') format('woff'),url('https://cdn.crate.io/libs/fonts/BlenderPro/BlenderPro-BoldWeb.ttf') format('truetype'),url('https://cdn.crate.io/libs/fonts/BlenderPro/BlenderPro-BoldWeb.svg#blenderpro_boldweb') format('svg');font-weight:bold}@font-face{font-family:SourceCodePro;src:url('https://cdn.crate.io/libs/fonts/SourceCodePro/SourceCodePro-Light.eot');src:url('https://cdn.crate.io/libs/fonts/SourceCodePro/SourceCodePro-Light.eot?#iefix') format('embedded-opentype'),url('https://cdn.crate.io/libs/fonts/SourceCodePro/SourceCodePro-Light.otf.woff') format('woff'),url('https://cdn.crate.io/libs/fonts/SourceCodePro/SourceCodePro-Light.ttf.woff') format('truetype'),url('https://cdn.crate.io/libs/fonts/SourceCodePro/SourceCodePro-Light.svg#sourcecodepro_light') format('svg')}@font-face{font-family:SourceCodePro;src:url('https://cdn.crate.io/libs/fonts/SourceCodePro/SourceCodePro-Regular.eot');src:url('https://cdn.crate.io/libs/fonts/SourceCodePro/SourceCodePro-Regular.eot?#iefix') format('embedded-opentype'),url('https://cdn.crate.io/libs/fonts/SourceCodePro/SourceCodePro-Regular.otf.woff') format('woff'),url('https://cdn.crate.io/libs/fonts/SourceCodePro/SourceCodePro-Regular.ttf.woff') format('truetype'),url('https://cdn.crate.io/libs/fonts/SourceCodePro/SourceCodePro-Regular.svg#sourcecodepro_regular') format('svg');font-weight:bold}
+	html {
+
+	}
+	body {	
+	  margin: 0;
+	  padding: 0;
+	  min-width: 350px;
+	  font-family: BlenderPro, "Helvetica Neue", Helvetica, Arial, sans-serif;
+	  font-size: 18px;
+	  line-height: 1.42857143;
+	  color: #333333;
+	  background-color: #ffffff;
+	  -webkit-font-smoothing: subpixel-antialiased;
+      overflow-x: hidden;	  
+	}
+	p {
+		margin: 0 0 6px 0;
+		padding: 0;
+	}
+	button,
+	input,
+	select,
+	textarea {
+	  font-family: inherit;
+	  font-size: 100%;
+	  margin: 0;
+	}
+	button,
+	input {
+	  line-height: normal;
+	}
+	button,
+	select {
+	  text-transform: none;
+	}
+	button,
+	html input[type="button"],
+	input[type="reset"],
+	input[type="submit"] {
+	  -webkit-appearance: button;
+	  cursor: pointer;
+	}
+	button[disabled],
+	html input[disabled] {
+	  cursor: default;
+	}
+	input[type="checkbox"],
+	input[type="radio"] {
+	  box-sizing: border-box;
+	  padding: 0;
+	}
+	input[type="search"] {
+	  -webkit-appearance: textfield;
+	  -moz-box-sizing: content-box;
+	  -webkit-box-sizing: content-box;
+	  box-sizing: content-box;
+	}
+	input[type="search"]::-webkit-search-cancel-button,
+	input[type="search"]::-webkit-search-decoration {
+	  -webkit-appearance: none;
+	}
+	button::-moz-focus-inner,
+	input::-moz-focus-inner {
+	  border: 0;
+	  padding: 0;
+	}
+	textarea {
+	  overflow: auto;
+	  vertical-align: top;
+	}
+	tr {
+
+		border-top: 1px solid red;
+	}
+	tr button span{ /* - normaler status - */
+		background: transparent url(img/play.png) scroll no-repeat 0 0;
+		display: block;
+		width: 15px;
+		height: 15px;
+	}
+	tr.pause button span{
+		background: transparent url(img/pause.png) scroll no-repeat 0 0;
+		display: block;
+		width: 15px;
+		height: 15px;
+	}
+	td {
+		vertical-align: top;
+		margin: 0;
+		padding: 10px;
+		border-collapse: separate;
+		border-bottom: 1px solid #e2e2e2;	
+
+	}
+	.container {
+		width: 330px;
+		padding: 10px;
+	}
+	#save {
+		float: right;
+		margin: 10px 0 10px 10px;
+	}
+	#clusterlist {
+		width: 320px;
+		padding: 5px;
+	}
+
+	/* td width & styles */
+	.action {
+		width: 30px;
+	}
+	.name {
+		width: 110px;
+		color: black;
+		font-size: 16px;
+		text-transform:uppercase;
+	}
+	.info {
+		width: 160px;
+	}
+	.info ul {
+		margin: 0px;
+		padding: 0px;
+	} 
+	.info li {
+		font-size: 16px;
+		color: black;
+		list-style: none;
+	}
+
+	/* Settings */
+
+	.settings {
+		background-color: #efefef;
+	}
+
+	.settings a{
+		background-color: #efefef;
+		background: url(img/settings.png) no-repeat 6px 1px;
+		padding: 0 30px 0;
+		text-decoration: none;
+		color: black;
+	}
+	.settings a:hover {
+		background-color: #efefef;
+		background: url(img/settings_over.png) no-repeat 6px 1px;
+		padding: 0 30px 0;
+		text-decoration: underline;
+		color: black;		
+	}
+
+	/* background colors */
+
+	.red {
+		background-color: #ff4b54;
+		padding: 2px;
+	}
+	.yellow {
+		background-color: #fec62f;
+		padding: 2px;
+	}
+	.green {
+		background-color: #00c667;
+		padding: 2px;
+	}	
+	.grey {
+		background-color: #e2e2e2;
+		padding: 2px;
+	}
+
