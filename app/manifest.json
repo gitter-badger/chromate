@@ -11,6 +11,12 @@
     "storage"
   ],
 
+  "icons": {
+    "16": "img/crate_16x16.png",
+    "48": "img/crate_48x48.png",
+    "128": "img/crate_128x128.png"
+  },
+
   "options_page": "settings.html",
 
   "browser_action": {
