@@ -1,4 +1,5 @@
 var Cluster = function Cluster(url) {
+    this._id = -1; // internal id for dom handling
     this.url = url;
     this.state = new State(State.UNKNOWN);
     this.shardInfo = null;
@@ -6,15 +7,17 @@ var Cluster = function Cluster(url) {
 };
 
 var refreshInterval = null;
+var clusters = [];
 
 var init = function(clusterUrls){
     if (refreshInterval) {
         window.clearInterval(refreshInterval);
         refreshInterval = null;
     }
-    var clusters = [];
+    clusters = [];
     for (var i=0; i<clusterUrls.length; i++) {
         var c = new Cluster(clusterUrls[i]);
+        c._id = i;
         clusters.push(c);
     }
     var interval = 5000/Math.max(clusters.length, 1);

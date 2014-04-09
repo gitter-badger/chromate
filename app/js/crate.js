@@ -11,6 +11,31 @@ State.CRITICAL = 2;
 
 var Health = function Health(clusterURL){};
 
+var getClusterInfo = function(cluster){
+  var deferred = $.Deferred();
+  var clusterURL = cluster.url;
+  var q = SQLQuery.execute(clusterURL,
+      'select ' +
+      '   sys.cluster.name, ' +
+      '   sum(load[\'1\']), ' +
+      '   sum(load[\'5\']), ' +
+      '   sum(load[\'15\']), ' +
+      '   count(*) ' +
+      'from sys.nodes group by sys.cluster.name');
+  q.done(function(sqlQuery) {
+    var info = {};
+    var row = sqlQuery.rows[0];
+    info.name = row[0];
+    info.load = row.slice(1,4);
+    var numNodes = row[4];
+    for (var i=0; i<info.load.length; i++) info.load[i] /= parseFloat(numNodes);
+    deferred.resolve(info);
+  }).fail(function(sqlQuery) {
+    deferred.revoke({});
+  });
+  return deferred;
+};
+
 var getClusterHealth = function(cluster, timeout) {
       SQLQuery.timeout = timeout;
       var clusterURL = cluster.url;

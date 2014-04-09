@@ -8,11 +8,30 @@
         overflow-x: hidden;
       }
     </style>
+    <script src="components/jquery/dist/jquery.min.js"></script>
+    <script src="js/sql.js"></script>
+    <script src="js/crate.js"></script>
     <script src="js/popup.js"></script>
     <a href="settings.html">Settings</a>
   </head>
   <body>
-    hello
+
+    <table id="clusters">
+    <tr>
+      <td><button class="">Pause</button></td>
+      <td class="name">Crate</td>
+      <td class="info">
+        <ul>
+          <li>http://demo.crate.io</li>
+          <li>Load: 0.12</li>
+          <li>100.0% available</li>
+          <li>50.0% replicated</li>
+          <li>25.28M records</li>
+        </ul>
+      </td>
+    </tr>
+    </table>
+
   </body>
 </html>
 
