@@ -1,0 +1,14 @@
+{
+  "name": "chromate",
+  "version": "0.1.0",
+  "main": "dist/",
+  "ignore": [
+    ".jshintrc",
+    "**/*.txt"
+  ],
+  "dependencies": {
+    "json3": "~3.2.4",
+    "es5-shim": "~2.0.8",
+    "bootstrap": "~3.0.3"
+  }
+}
