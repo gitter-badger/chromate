@@ -30,6 +30,7 @@ var SQLQuery = function SQLQuery(stmt, response, failed) {
     this.duration = response.duration;
   }
 }
+
 SQLQuery.prototype.status = function() {
   var status_string = "";
   var stmt_parts = this.stmt.split(' ');
@@ -46,6 +47,7 @@ SQLQuery.prototype.status = function() {
   }
   return status_string;
 };
+
 SQLQuery.execute = function(clusterURL, stmt /*, args */) {
   var data = {
     'stmt': stmt,
@@ -66,8 +68,6 @@ SQLQuery.execute = function(clusterURL, stmt /*, args */) {
         data = {'error': {'message': 'Connection Error', 'code': status}};
       }
       deferred.reject(new SQLQuery(stmt, data, true));
-  }).always(function(xhr){
-      console.info(xhr);
-  });
+  }).always(function(xhr){});
   return deferred;
 };
