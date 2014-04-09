@@ -1,12 +1,5 @@
-
-
-          .error {
-        border: 1px solid red;
-    } 
 	@font-face{font-family:BlenderPro;src:url('https://cdn.crate.io/libs/fonts/BlenderPro/BlenderPro-ThinWeb.eot');src:url('https://cdn.crate.io/libs/fonts/BlenderPro/BlenderPro-ThinWeb.eot?#iefix') format('embedded-opentype'),url('https://cdn.crate.io/libs/fonts/BlenderPro/BlenderPro-ThinWeb.woff') format('woff'),url('https://cdn.crate.io/libs/fonts/BlenderPro/BlenderPro-ThinWeb.ttf') format('truetype'),url('https://cdn.crate.io/libs/fonts/BlenderPro/BlenderPro-ThinWeb.svg#blenderpro_thinweb') format('svg')}@font-face{font-family:BlenderPro;src:url('https://cdn.crate.io/libs/fonts/BlenderPro/BlenderPro-BoldWeb.eot');src:url('https://cdn.crate.io/libs/fonts/BlenderPro/BlenderPro-BoldWeb.eot?#iefix') format('embedded-opentype'),url('https://cdn.crate.io/libs/fonts/BlenderPro/BlenderPro-BoldWeb.woff') format('woff'),url('https://cdn.crate.io/libs/fonts/BlenderPro/BlenderPro-BoldWeb.ttf') format('truetype'),url('https://cdn.crate.io/libs/fonts/BlenderPro/BlenderPro-BoldWeb.svg#blenderpro_boldweb') format('svg');font-weight:bold}@font-face{font-family:SourceCodePro;src:url('https://cdn.crate.io/libs/fonts/SourceCodePro/SourceCodePro-Light.eot');src:url('https://cdn.crate.io/libs/fonts/SourceCodePro/SourceCodePro-Light.eot?#iefix') format('embedded-opentype'),url('https://cdn.crate.io/libs/fonts/SourceCodePro/SourceCodePro-Light.otf.woff') format('woff'),url('https://cdn.crate.io/libs/fonts/SourceCodePro/SourceCodePro-Light.ttf.woff') format('truetype'),url('https://cdn.crate.io/libs/fonts/SourceCodePro/SourceCodePro-Light.svg#sourcecodepro_light') format('svg')}@font-face{font-family:SourceCodePro;src:url('https://cdn.crate.io/libs/fonts/SourceCodePro/SourceCodePro-Regular.eot');src:url('https://cdn.crate.io/libs/fonts/SourceCodePro/SourceCodePro-Regular.eot?#iefix') format('embedded-opentype'),url('https://cdn.crate.io/libs/fonts/SourceCodePro/SourceCodePro-Regular.otf.woff') format('woff'),url('https://cdn.crate.io/libs/fonts/SourceCodePro/SourceCodePro-Regular.ttf.woff') format('truetype'),url('https://cdn.crate.io/libs/fonts/SourceCodePro/SourceCodePro-Regular.svg#sourcecodepro_regular') format('svg');font-weight:bold}
-	html {
-
-	}
+	html {}
 	body {	
 	  margin: 0;
 	  padding: 0;
@@ -74,18 +67,14 @@
 	  overflow: auto;
 	  vertical-align: top;
 	}
-	tr {
-
-		border-top: 1px solid red;
-	}
-	tr button span{ /* - normaler status - */
-		background: transparent url(../img/play.png) scroll no-repeat 0 0;
+	tr button span {
+		background: transparent url('../img/play.png') scroll no-repeat 0 0;
 		display: block;
 		width: 15px;
 		height: 15px;
 	}
-	tr.pause button span{
-		background: transparent url(../img/pause.png) scroll no-repeat 0 0;
+	tr.paused button span {
+		background: transparent url('../img/pause.png') scroll no-repeat 0 0;
 		display: block;
 		width: 15px;
 		height: 15px;
@@ -157,20 +146,46 @@
 
 	/* background colors */
 
-	.red {
+	.not-reachable,
+	.critical {
 		background-color: #ff4b54;
 		padding: 2px;
+		color: #fff;
 	}
-	.yellow {
+	.warning {
 		background-color: #fec62f;
 		padding: 2px;
+		color: #fff;
 	}
-	.green {
+	.good {
 		background-color: #00c667;
 		padding: 2px;
+		color: #fff;
 	}	
-	.grey {
+	.unknown {
 		background-color: #e2e2e2;
 		padding: 2px;
 	}
 
+	.error {
+		border: 1px solid #ff4b54;
+	}
+	
+	table.table {
+		width: 100%;
+		border-collapse: collapse;
+	}
+
+	td.info p,
+	td.info li {
+		color: #666;
+		font-size: 15px;
+		line-height: 110%;
+	}
+
+	a {
+		color: #000;
+	}
+	a:hover {
+		color: #333;
+	}

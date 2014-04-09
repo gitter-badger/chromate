@@ -1,6 +1,6 @@
 var createTableRow = function(cluster){
     var row = $('<tr id="cluster-'+cluster._id+'">' +
-        '<td><button class=""></button></td>' +
+        '<td><button><span></span></button></td>' +
         '<td><span class="name">--</span></td>' +
         '<td class="info">' +
         '<ul>' +
@@ -10,7 +10,7 @@ var createTableRow = function(cluster){
         '<li><span class="replicated">--</span> replicated</li>' +
         '<li><span class="records">--</span> records</li>' +
         '</ul>' +
-        '<p class="error" style="display:none;"><a href="#" target="_blank">--</a> not reachable!</p>' +
+        '<p style="display:none;"><span class="critical"><a href="#" target="_blank">--</a><br />not reachable</span></p>' +
         '</td>' +
         '</tr>');
     $("#clusters").append(row);
@@ -33,11 +33,13 @@ var updateTableRow = function updateTableRow(cluster) {
         $(".available", row).text(cluster.tableInfo.available_data.toFixed(1)+"%");
         $(".replicated", row).text(cluster.tableInfo.replicated_data.toFixed(1)+"%");
         $(".records", row).text(cluster.tableInfo.records_total);
-        $(".error", row).hide();
+        $("p", row).hide();
         $("ul", row).show();
+        row.removeClass("not-reachable");
     }).fail(function(){
-        $(".error", row).show();
+        $("p", row).show();
         $("ul", row).hide();
+        row.addClass("not-reachable");
     }).always(function(){
         $("a", row).attr("href", cluster.url + "/admin").text(cluster.url);
     });
