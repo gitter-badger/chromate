@@ -9,7 +9,67 @@ State.GOOD = 0;
 State.WARNING = 1;
 State.CRITICAL = 2;
 
-var Health = function Health(clusterURL){};
+
+var TableInfo = function TableInfo(shards) {
+  this.shards = shards;
+  this.shards_configured = 0;
+  this.primaryShards = function primaryShards() {
+    return this.shards.filter(function (shard, idx) {
+      return shard.primary;
+    });
+  };
+  this.size = function size() {
+    var primary = this.primaryShards();
+    return primary.reduce(function(memo, shard, idx) {
+      return memo + shard.size;
+    }, 0);
+  };
+  this.totalRecords = function totalRecords() {
+    var primary = this.primaryShards();
+    return primary.reduce(function (memo, shard, idx) {
+      return memo + shard.sum_docs;
+    }, 0);
+  };
+  this.missingShards = function missingShards() {
+      var activePrimaryShards = this.shards.filter(function(shard) {
+          return shard.state in {'STARTED':'', 'RELOCATING':''} && shard.primary;
+      });
+      var numActivePrimaryShards = activePrimaryShards.reduce(function(memo, shard, idx) {
+        return shard.count + memo;
+      }, 0);
+      return Math.max(this.shards_configured-numActivePrimaryShards, 0);
+  };
+  this.underreplicatedShards = function underreplicatedShards() {
+      return this.unassignedShards() - this.missingShards();
+  };
+  this.unassignedShards = function unassignedShards() {
+      var shards = this.shards.filter(function(shard, idx) {
+          return shard.state == 'UNASSIGNED';
+      });
+      return shards.reduce(function(memo, shard, idx) { return shard.count + memo; }, 0);
+  };
+  this.startedShards = function startedShards() {
+      var shards = this.shards.filter(function(shard, idx) {
+          return shard.state == 'STARTED';
+      });
+      return shards.reduce(function(memo, shard, idx) {return shard.count + memo; }, 0);
+  };
+  this.underreplicatedRecords = function underreplicatedRecords() {
+      var primary = this.primaryShards();
+      return primary.length ? (primary[0].avg_docs * this.underreplicatedShards()) : 0;
+  };
+  this.unavailableRecords = function unavailableRecords() {
+      var started = this.startedShards();
+      return started.length ? (started[0].avg_docs * this.missingShards()) : 0;
+  };
+  this.health = function health() {
+      if (this.primaryShards().length === 0) return 'critical';
+      if (this.missingShards() > 0) return 'critical';
+      if (this.unassignedShards() > 0) return 'warning';
+      return 'good';
+  };
+};
+
 
 var getClusterInfo = function(cluster){
   var deferred = $.Deferred();
@@ -92,7 +152,42 @@ var getClusterHealth = function(cluster, timeout) {
             cluster.state = new State(State.GOOD);
           }
 
-          console.log(clusterURL, cluster.state);
+          if (!cluster.tableInfo || !cluster.tableInfo.tables.length) {
+            cluster.tableInfo.available_data = 100;
+            cluster.tableInfo.records_unavailable = 0;
+            cluster.tableInfo.replicated_data = 100;
+            cluster.tableInfo.records_total = 0;
+            cluster.tableInfo.records_underreplicated = 0;
+            return;
+          };
+    
+          var tables = [];
+          for (var i=0; i<cluster.tableInfo.tables.length; i++) {
+            var table = cluster.tableInfo.tables[i];
+            var aggregatedTableInfo = new TableInfo(cluster.shardInfo.filter(function(shard, idx) { return table.name === shard.name; }));
+            aggregatedTableInfo.shards_configured = table.number_of_shards;
+            tables.push(aggregatedTableInfo);
+          }
+          cluster.tableInfo.records_underreplicated = tables.reduce(function(memo, tableInfo, idx) {
+            return tableInfo.underreplicatedRecords() + memo;
+          }, 0);
+          cluster.tableInfo.records_unavailable = tables.reduce(function(memo, tableInfo, idx) {
+            return tableInfo.unavailableRecords() + memo;
+          }, 0);
+          cluster.tableInfo.records_total = tables.reduce(function(memo, tableInfo, idx) {
+            return tableInfo.totalRecords() + memo;
+          }, 0);
+    
+          if (cluster.tableInfo.records_total) {
+            cluster.tableInfo.replicated_data = (cluster.tableInfo.records_total-cluster.tableInfo.records_underreplicated) / cluster.tableInfo.records_total * 100.0;
+            cluster.tableInfo.available_data = (cluster.tableInfo.records_total-cluster.tableInfo.records_unavailable) / cluster.tableInfo.records_total * 100.0;
+          } else {
+            cluster.tableInfo.replicated_data = 100.0;
+            cluster.tableInfo.available_data = 100.0;
+          }
+
+          console.log(clusterURL, cluster);
+
         }).fail(function(res){
           console.error("error", res);
           cluster.state = new State(State.UNKNOWN);

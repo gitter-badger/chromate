@@ -26,7 +26,7 @@ var init = function(clusterUrls){
         if (!clusters.length) return;
         var cluster = clusters[counter%clusters.length];
         getClusterHealth(cluster, interval);
-        var code = 0;
+        var code = -1;
         var unknown = false;
         for (idx in clusters) {
             var cluster = clusters[idx];
@@ -37,8 +37,15 @@ var init = function(clusterUrls){
             }
         }
         var state = new State(code);
-        var iconName = '../img/icon-' + state.name + (unknown ? '-unknown' : '') + '.png';
+        var iconName = "../img/icon.png";
+        if (state.code > -1) {
+            iconName = '../img/icon-' + state.name + (unknown ? '-unknown' : '') + '.png';
+        }
         chrome.browserAction.setIcon({'path':iconName});
+        var views = chrome.extension.getViews({'type':'popup'});
+        if (views.length && views[0].location.href.match(/popup.html/)) {
+            views[0].updateTableRow(cluster);
+        }
         counter++;
     };
     refreshInterval = window.setInterval(fetch, interval);
