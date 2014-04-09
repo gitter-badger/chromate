@@ -15,20 +15,24 @@ var createTableRow = function(cluster){
     $("#clusters").append(row);
 };
 
+var updateTableRow = function updateTableRow(cluster) {
+    getClusterInfo(cluster).done(function(info){
+        cluster.info = info;
+        var row = $("#cluster-"+cluster._id);
+        $(".name", row).text(cluster.info.name).addClass(cluster.state.name);
+        $("a", row).attr("href", cluster.url + "/admin").text(cluster.url);
+        $(".load", row).text(cluster.info.load[0].toFixed(2));
+        $(".available", row).text(cluster.tableInfo.available_data.toFixed(1)+"%");
+        $(".replicated", row).text(cluster.tableInfo.replicated_data.toFixed(1)+"%");
+        $(".records", row).text(cluster.tableInfo.records_total);
+    });
+};
+
 document.addEventListener("DOMContentLoaded", function(){
     var background = chrome.extension.getBackgroundPage();
     for (var i=0; i<background.clusters.length; i++) {
         var cluster = background.clusters[i];
         createTableRow(cluster);
-        getClusterInfo(cluster).done(function(info){
-            cluster.info = info;
-            var row = $("#cluster-"+cluster._id);
-            $(".name", row).text(cluster.info.name).addClass(cluster.state.name);
-            $("a", row).attr("href", cluster.url + "/admin").text(cluster.url);
-            $(".load", row).text(cluster.info.load[0].toFixed(2));
-            $(".available", row).text(cluster.tableInfo.available_data.toFixed(1)+"%");
-            $(".replicated", row).text(cluster.tableInfo.replicated_data.toFixed(1)+"%");
-            $(".records", row).text(cluster.tableInfo.records_total);
-        });
+        updateTableRow(cluster);
     }
 }, false);
