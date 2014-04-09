@@ -10,8 +10,6 @@
     "**/*.txt"
   ],
   "dependencies": {
-    "json3": "~3.2.4",
-    "bootstrap": "~3.0.3",
     "jquery": "1.11.0"
   }
 }
