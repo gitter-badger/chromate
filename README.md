@@ -24,6 +24,10 @@ Load extension in Chrome::
  - enabled Developer Mode
  - Load unpacked extension ...
 
+Download from Chrome Web Store
+------------------------------
+
+[https://chrome.google.com/webstore/detail/crate-chrome-extension/ecajgicdbkeoafjnljajeglemnjfbehk](https://chrome.google.com/webstore/detail/crate-chrome-extension/ecajgicdbkeoafjnljajeglemnjfbehk)
 
 Help & Contact
 --------------
