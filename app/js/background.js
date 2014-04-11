@@ -1,3 +1,5 @@
+var refreshLoopTime = 10000;
+
 var Cluster = function Cluster(url) {
     this._id = -1; // internal id for dom handling
     this._paused = false;
@@ -7,36 +9,29 @@ var Cluster = function Cluster(url) {
     this.tableInfo = null;
 };
 
-var refreshInterval = null;
-var clusters = [];
-
 var init = function(clusterUrls){
-    if (refreshInterval) {
-        window.clearInterval(refreshInterval);
-        refreshInterval = null;
-    }
     clusters = [];
     for (var i=0; i<clusterUrls.length; i++) {
         var c = new Cluster(clusterUrls[i]);
         c._id = i;
         clusters.push(c);
     }
-    var interval = 5000/Math.max(clusters.length, 1);
     var counter = 0;
     var fetch = function fetch(){
         if (!clusters.length) return;
         var cluster = clusters[counter%clusters.length];
-
-        var updateClusterHealth = function(){
+        console.log("fetch info for cluster ", (counter%clusters.length));
+        var updateClusterHealth = function(clusterinfo){
+            console.log("howdy", clusterinfo, cluster);
             var code = -1;
             var unknown = 0;
             for (idx in clusters) {
-                var cluster = clusters[idx];
-                if (cluster._paused) continue;
-                if (cluster.state.code === State.UNKNOWN) {
+                var _cluster = clusters[idx];
+                if (_cluster._paused) continue;
+                if (_cluster.state.code === State.UNKNOWN) {
                     unknown++;
                 } else {
-                    code = Math.max(code, cluster.state.code)
+                    code = Math.max(code, _cluster.state.code)
                 }
             }
             var state = new State(code);
@@ -60,12 +55,12 @@ var init = function(clusterUrls){
         if (cluster._paused) {
             updateClusterHealth();
         } else {
-            getClusterHealth(cluster, interval).always(updateClusterHealth);
+            getClusterHealth(cluster).always(updateClusterHealth);
         }
-
+        var timeout = refreshLoopTime/Math.max(clusters.length, 1);
+        window.setTimeout(fetch, timeout);
         counter++;
     };
-    refreshInterval = window.setInterval(fetch, interval);
     fetch();
 };
 

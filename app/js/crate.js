@@ -101,7 +101,7 @@ var getClusterHealth = function(cluster, timeout) {
       SQLQuery.timeout = timeout;
       var clusterURL = cluster.url;
 
-      var tableQuery = SQLQuery.execute(clusterURL, 
+      var tableQuery = SQLQuery.execute(clusterURL,
         'select table_name, sum(number_of_shards), number_of_replicas ' +
         'from information_schema.tables ' +
         'where schema_name in (\'doc\', \'blob\') ' +
@@ -111,12 +111,12 @@ var getClusterHealth = function(cluster, timeout) {
         var tableInfo = queryResultToObjects(sqlQuery,
           ['name', 'number_of_shards', 'number_of_replicas']);
 
-        var shardQuery = SQLQuery.execute(clusterURL, 
+        var shardQuery = SQLQuery.execute(clusterURL,
           'select table_name, count(*), "primary", state, sum(num_docs), avg(num_docs), sum(size) ' +
           'from sys.shards group by table_name, "primary", state');
-        
+
         shardQuery.done(function(sqlQuery){
-          var shardInfo = queryResultToObjects(sqlQuery, 
+          var shardInfo = queryResultToObjects(sqlQuery,
             ['name', 'count', 'primary', 'state', 'sum_docs', 'avg_docs', 'size']);
           cluster.shardInfo = shardInfo;
 
@@ -161,7 +161,7 @@ var getClusterHealth = function(cluster, timeout) {
             cluster.tableInfo.records_underreplicated = 0;
             return;
           };
-    
+
           var tables = [];
           for (var i=0; i<cluster.tableInfo.tables.length; i++) {
             var table = cluster.tableInfo.tables[i];
@@ -178,7 +178,7 @@ var getClusterHealth = function(cluster, timeout) {
           cluster.tableInfo.records_total = tables.reduce(function(memo, tableInfo, idx) {
             return tableInfo.totalRecords() + memo;
           }, 0);
-    
+
           if (cluster.tableInfo.records_total) {
             cluster.tableInfo.replicated_data = (cluster.tableInfo.records_total-cluster.tableInfo.records_underreplicated) / cluster.tableInfo.records_total * 100.0;
             cluster.tableInfo.available_data = (cluster.tableInfo.records_total-cluster.tableInfo.records_unavailable) / cluster.tableInfo.records_total * 100.0;
@@ -188,16 +188,16 @@ var getClusterHealth = function(cluster, timeout) {
           }
 
           console.log(clusterURL, cluster);
-          deferred.resolve();
+          deferred.resolve(cluster);
 
         }).fail(function(res){
           cluster.state = new State(State.UNKNOWN);
-          deferred.reject();
+          deferred.reject(cluster);
         });
 
       }).fail(function(res){
           cluster.state = new State(State.UNKNOWN);
-          deferred.reject();
+          deferred.reject(cluster);
       });
 
       return deferred;

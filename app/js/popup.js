@@ -31,9 +31,11 @@ var updateTableRow = function updateTableRow(cluster) {
         $(".name", row).text(cluster.info.name)
         $(".name", row).attr("class","").addClass(cluster.state.name);
         $(".load", row).text(cluster.info.load[0].toFixed(2));
-        $(".available", row).text(cluster.tableInfo.available_data.toFixed(1)+"%");
-        $(".replicated", row).text(cluster.tableInfo.replicated_data.toFixed(1)+"%");
-        $(".records", row).text(cluster.tableInfo.records_total);
+        if (cluster.tableInfo && cluster.tableInfo.available_data){
+            $(".available", row).text(cluster.tableInfo.available_data.toFixed(1)+"%");
+            $(".replicated", row).text(cluster.tableInfo.replicated_data.toFixed(1)+"%");
+            $(".records", row).text(cluster.tableInfo.records_total);
+        }
         $("p", row).hide();
         $("ul", row).show();
         row.removeClass("not-reachable");
@@ -47,6 +49,11 @@ var updateTableRow = function updateTableRow(cluster) {
 };
 
 document.addEventListener("DOMContentLoaded", function(){
+    Settings.get('clusterUrls', function(urls){
+        if (!urls.length){
+            window.location.href="settings.html";
+        }
+    });
     var background = chrome.extension.getBackgroundPage();
     for (var i=0; i<background.clusters.length; i++) {
         var cluster = background.clusters[i];

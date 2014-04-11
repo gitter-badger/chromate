@@ -1,0 +1,12 @@
+============
+ Unreleased
+============
+
+ - make sure the settings work with trailing slash and without
+
+ - bugfix: only first cluster got updated in popup view
+
+ - changed background script from interval to timeout to avoid queued
+   requests on slow connections
+
+ - auto redirect to settings page if no cluster urls are defined.
