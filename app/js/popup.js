@@ -29,7 +29,7 @@ var updateTableRow = function updateTableRow(cluster) {
     getClusterInfo(cluster).done(function(info){
         cluster.info = info;
         $(".name", row).text(cluster.info.name)
-        $(".name", row).attr("class","").addClass(cluster.state.name);
+        $(".name", row).attr("class","name").addClass(cluster.state.name);
         $(".load", row).text(cluster.info.load[0].toFixed(2));
         if (cluster.tableInfo && cluster.tableInfo.available_data){
             $(".available", row).text(cluster.tableInfo.available_data.toFixed(1)+"%");
