@@ -1,12 +1,13 @@
-
 var save_options = function(){
   var elem = document.getElementById('clusterlist');
-  var urls = elem.value.split('\n');
+  var urls = elem.value ? elem.value.split('\n') : [];
   Settings.set(urls, function(success) {
     if (success) {
       var background = chrome.extension.getBackgroundPage();
       background.init(urls);
-      window.history.back();
+      if (urls.length){
+        window.history.back();
+      }
     } else {
       elem.classList.add('error');
     }

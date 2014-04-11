@@ -10,3 +10,5 @@
    requests on slow connections
 
  - auto redirect to settings page if no cluster urls are defined.
+
+ - enable settings to store empty server list
